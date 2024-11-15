@@ -12,6 +12,10 @@ h2 {
     @apply text-3xl font-semibold text-rose-600 dark:text-purple-600 mb-4;
 }
 
+h3 {
+    @apply font-semibold text-rose-600 dark:text-purple-600 mb-4;
+}
+
 p, ul {
     @apply text-lg text-gray-700 dark:text-gray-200 leading-relaxed;
 }

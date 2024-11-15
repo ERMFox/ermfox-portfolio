@@ -6,21 +6,21 @@
     <title>ERMFox Portfolio</title>
     <link href="/css/output.css" rel="stylesheet"> <!-- Link to Tailwind CSS output -->
 </head>
-<body class="bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 font-sans">
+<body class="flex flex-col min-h-screen bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 font-sans">
     <!-- Navbar -->
     <%- include('partials/navbar') %>
 
     <!-- Main Content -->
-    <main class="p-8 max-w-5xl mx-auto">
+    <main class="flex-grow p-8 max-w-5xl mx-auto">
         <!-- Welcome Section -->
         <section class="text-center mb-12">
-            <h1>Welcome to ERMFox's Portfolio</h1>
-            <p>Discover my journey in game design, art, and coding projects.</p>
+            <h1 class="text-3xl font-bold mb-4">Welcome to ERMFox's Portfolio</h1>
+            <p class="text-lg">Discover my journey in game design, art, and coding projects.</p>
         </section>
 
         <!-- Introduction Section -->
         <section class="mb-12">
-            <h2>About Me</h2>
+            <h2 class="text-2xl font-semibold mb-4">About Me</h2>
             <p>
                 Hi, I'm ERMFox! I'm passionate about creating immersive worlds, engaging stories, and interactive experiences.
                 My journey includes a blend of game design, worldbuilding, coding, and art, all aimed at building memorable
@@ -31,39 +31,28 @@
 
         <!-- Portfolio Highlights Section -->
         <section class="mb-12">
-            <h2>Portfolio Highlights</h2>
+            <h2 class="text-2xl font-semibold mb-4">Portfolio Highlights</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Art Section -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold mb-2">Art</h3>
-                    <p class="text-gray-600 mb-4">Explore my artwork, including illustrations and concept designs.</p>
-                    <a href="/portfolio#art" class="text-rose-600 font-semibold hover:underline">View Art &rarr;</a>
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2">Art</h3>
+                    <p>Explore my artwork, including illustrations and concept designs.</p>
+                    <a href="/portfolio#art" class="text-rose-600 dark:text-purple-600 font-semibold hover:underline">View Art &rarr;</a>
                 </div>
 
                 <!-- Worldbuilding Section -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold mb-2">Worldbuilding</h3>
-                    <p class="text-gray-600 mb-4">Dive into the worlds I’ve created, complete with rich lore and storytelling.</p>
-                    <a href="/portfolio#worlds" class="text-rose-600 font-semibold hover:underline">Explore Worlds &rarr;</a>
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2">Worldbuilding</h3>
+                    <p>Dive into the worlds I’ve created, complete with rich lore and storytelling.</p>
+                    <a href="/portfolio#worlds" class="text-rose-600 dark:text-purple-600 font-semibold hover:underline">Explore Worlds &rarr;</a>
                 </div>
 
                 <!-- Coding Projects Section -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold mb-2">Coding Projects</h3>
-                    <p class="text-gray-600 mb-4">Check out my projects that showcase my skills in backend and game development.</p>
-                    <a href="/portfolio#coding-projects" class="text-rose-600 font-semibold hover:underline">See Projects &rarr;</a>
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2">Coding Projects</h3>
+                    <p>Check out my projects that showcase my skills in backend and game development.</p>
+                    <a href="/portfolio#coding-projects" class="text-rose-600 dark:text-purple-600 font-semibold hover:underline">See Projects &rarr;</a>
                 </div>
-            </div>
-        </section>
-
-        <!-- Social Links Section -->
-        <section class="text-center">
-            <h2>Connect with Me</h2>
-            <p>Follow me on social media or reach out directly for collaboration!</p>
-            <div class="flex justify-center space-x-8">
-                <a href="https://github.com/ERMFox" class="hover:text-rose-600" target="_blank">GitHub</a>
-                <a href="https://x.com/ermfoxgmg" class="hover:text-rose-600" target="_blank">Twitter / X</a>
-                <a href="https://twitch.tv/ERMFox" class="hover:text-rose-600" target="_blank">Twitch</a>
             </div>
         </section>
     </main>

@@ -3,20 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ERMFox Portfolio</title>
+    <title>Portfolio - ERMFox Portfolio</title>
     <link href="/css/output.css" rel="stylesheet"> <!-- Link Tailwind CSS -->
 </head>
-<body class="bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 font-sans">
-    <!-- Navbar goes here -->
-    <%- include('partials/navbar') %> <!-- Optional, for reusable navbar -->
+<body class="flex flex-col min-h-screen bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 font-sans">
+    <!-- Navbar -->
+    <%- include('partials/navbar') %>
 
-    <!-- Main content -->
-    <main class="p-8 max-w-4xl mx-auto">
-        <h1>Welcome to My Portfolio</h1>
+    <!-- Main Content -->
+    <main class="flex-grow p-8 max-w-5xl mx-auto">
+        <section class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-rose-600 mb-4">Welcome to My Portfolio</h1>
+            <p class="text-lg text-gray-700 dark:text-gray-200">
+                Explore my work in coding, worldbuilding, and art. Dive into the projects that showcase my skills and creativity.
+            </p>
+        </section>
+
+        <!-- Portfolio Cards Section -->
+        <section id="portfolio-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Coding Projects -->
+            <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-bold mb-2">Coding Projects</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    Discover my backend development projects, game prototypes, and other technical creations.
+                </p>
+                <a href="/portfolio/coding" class="text-rose-600 dark:text-purple-600 font-semibold hover:underline">Explore Coding &rarr;</a>
+            </div>
+
+            <!-- Worldbuilding Projects -->
+            <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-bold mb-2">Worldbuilding</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    Immerse yourself in the intricate worlds I've built, complete with rich lore and storytelling.
+                </p>
+                <a href="/portfolio/worldbuilding" class="text-rose-600 dark:text-purple-600 font-semibold hover:underline">Dive into Worlds &rarr;</a>
+            </div>
+
+            <!-- Art Portfolio -->
+            <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-bold mb-2">Art Portfolio</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    Explore my artwork, including concept designs, illustrations, and more.
+                </p>
+                <a href="/portfolio/art" class="text-rose-600 dark:text-purple-600 font-semibold hover:underline">View Art &rarr;</a>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
     <%- include('partials/footer') %>
-
 </body>
 </html>

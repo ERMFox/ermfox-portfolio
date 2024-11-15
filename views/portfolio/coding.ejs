@@ -3,17 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me - ERMFox Portfolio</title>
+    <title>Coding Projects - ERMFox Portfolio</title>
     <link href="/css/output.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 font-sans">
 
+<style>
+/* Tooltip Wrapper */
+.tooltip {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Tooltip Text */
+.tooltip-text {
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%; /* Adjust height above the bar */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+/* Tooltip Visibility on Hover */
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+</style>
+
+<body class="flex flex-col min-h-screen bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 font-sans">
     <!-- Navbar -->
-    <%- include('partials/navbar') %>
+    <%- include('../partials/navbar') %>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-8 max-w-5xl mx-auto">
+        <section class="mb-12 text-center">
+            <h1 class="text-5xl font-bold text-rose-600 mb-4">Coding Projects</h1>
+            <p class="text-lg text-gray-700 dark:text-gray-200">
+                A collection of my public repositories on GitHub and GitLab, showcasing my skills in backend and game development, and more.
+            </p>
+        </section>
+
+        <!-- Project Cards Section -->
+        <section id="project-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Cards will be populated here by JavaScript -->
+        </section>
+    </main>
 
     <!-- Footer -->
-    <%- include('partials/footer') %>
+    <%- include('../partials/footer') %>
 
+    <script>
+        // JavaScript to fetch and display projects
+        async function fetchRepositories() {
+            const githubUrl = 'https://api.github.com/users/ERMFox/repos';
+            const gitlabUrl = 'https://gitlab.com/api/v4/users/SierraTheFourTailedFox/projects';
+
+            try {
+                // Fetch data from GitHub and GitLab
+                const [githubResponse, gitlabResponse] = await Promise.all([
+                    fetch(githubUrl),
+                    fetch(gitlabUrl)
+                ]);
+
+                const githubRepos = await githubResponse.json();
+                const gitlabRepos = await gitlabResponse.json();
+
+                // Combine repos and render them
+                renderRepositories([...githubRepos, ...gitlabRepos]);
+            } catch (error) {
+                console.error('Error fetching repositories:', error);
+            }
+        }
+
+        async function fetchLanguages(repo) {
+            if (repo.html_url) { // Only fetch languages for GitHub repos
+                const languagesUrl = `https://api.github.com/repos/${repo.owner.login}/${repo.name}/languages`;
+                const response = await fetch(languagesUrl);
+                if (response.ok) {
+                    return await response.json();
+                }
+            }
+            return null;
+        }
+
+        function createLanguageBars(languages) {
+            const total = Object.values(languages).reduce((sum, value) => sum + value, 0);
+            const container = document.createElement('div');
+            container.className = 'relative h-4 mt-4 flex rounded-md overflow-hidden'; // Set height, rounded corners, and no spacing
+
+            for (const [language, value] of Object.entries(languages)) {
+                const percentage = ((value / total) * 100).toFixed(2);
+
+                // Create the bar segment for each language
+                const bar = document.createElement('div');
+                bar.style.width = `${percentage}%`;
+                bar.style.backgroundColor = getLanguageColor(language);
+                bar.className = 'h-full'; // Set full height to fill the container
+
+                // Add tooltip using the title attribute
+                bar.title = `${language}: ${percentage}%`;
+
+                container.appendChild(bar);
+            }
+            return container;
+        }
+
+        function getLanguageColor(language) {
+            const colors = {
+                JavaScript: '#f1e05a',
+                Python: '#3572A5',
+                Ruby: '#701516',
+                PHP: '#4F5D95',
+                Java: '#b07219',
+                CSS: '#563d7c',
+                HTML: '#e34c26',
+                Shell: '#89e051',
+                TypeScript: '#2b7489',
+                C: '#555555',
+                'C++': '#f34b7d',
+                Go: '#00ADD8',
+                default: '#cccccc'
+            };
+            return colors[language] || colors['default'];
+        }
+
+        async function renderRepositories(repositories) {
+            const projectCardsContainer = document.getElementById('project-cards');
+            projectCardsContainer.innerHTML = '';
+
+            for (const repo of repositories) {
+                // Create each project card using the structure from the main page
+                const card = document.createElement('div');
+                card.className = 'bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md';
+
+                const title = document.createElement('h3');
+                title.className = 'text-2xl font-bold mb-2';
+                title.textContent = repo.name;
+
+                const description = document.createElement('p');
+                description.className = 'text-gray-600 mb-4';
+                description.textContent = repo.description || 'No description available';
+
+                const link = document.createElement('a');
+                link.className = 'text-rose-600 font-semibold hover:underline';
+                link.href = repo.html_url || repo.web_url;
+                link.target = '_blank';
+                link.textContent = 'View Project →';
+
+                card.appendChild(title);
+                card.appendChild(description);
+
+                // Fetch languages and create a language bar
+                if (repo.html_url) { // Only fetch languages for GitHub repos
+                    const languages = await fetchLanguages(repo);
+                    if (languages) {
+                        const languageBars = createLanguageBars(languages);
+                        card.appendChild(languageBars);
+                    }
+                }
+
+                card.appendChild(link);
+                projectCardsContainer.appendChild(card);
+            }
+        }
+
+        // Fetch repositories on page load
+        fetchRepositories();
+    </script>
 </body>
 </html>
-    

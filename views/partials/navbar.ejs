@@ -1,11 +1,15 @@
-<!-- views/partials/navbar.ejs -->
 <nav class="bg-rose-500 dark:bg-purple-700 text-white p-4">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
         <!-- Logo -->
         <a href="/" class="text-2xl font-bold">ERMFox Portfolio</a>
 
+        <!-- Mobile Menu Button -->
+        <button id="menu-button" class="block md:hidden">
+            <img src="/media/menu.svg" alt="Menu" class="w-6 h-6">
+        </button>
+
         <!-- Navigation Links -->
-        <ul class="flex space-x-6">
+        <ul id="nav-links" class="hidden md:flex space-x-6">
             <li><a href="/" class="hover:underline">Home</a></li>
             <li><a href="/about" class="hover:underline">About</a></li>
             <li><a href="/portfolio" class="hover:underline">Portfolio</a></li>
@@ -14,24 +18,34 @@
         </ul>
 
         <!-- Dark Mode Toggle Button -->
-        <button onclick="toggleDarkMode()" class="ml-4 p-2 rounded bg-gray-700 text-white hover:bg-gray-600">
-            <span id="dark-mode-icon">🌞</span>
+        <button onclick="toggleDarkMode()" class="ml-4 p-2 rounded bg-rose-500 dark:bg-purple-700 text-white hover:bg-rose-700 dark:hover:bg-purple-900">
+            <img id="dark-mode-icon" src="/media/moon.png" alt="Toggle dark mode" 
+                 class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12" />
         </button>
     </div>
+
+    <!-- Mobile Menu -->
+    <ul id="mobile-nav" class="hidden flex flex-col space-y-4 mt-4">
+        <li><a href="/" class="hover:underline">Home</a></li>
+        <li><a href="/about" class="hover:underline">About</a></li>
+        <li><a href="/portfolio" class="hover:underline">Portfolio</a></li>
+        <li><a href="/contact" class="hover:underline">Contact</a></li>
+        <li><a href="/community" class="hover:underline">Community</a></li>
+    </ul>
 </nav>
 
-<!-- Dark Mode Toggle Script -->
+<!-- Dark Mode Script -->
 <script>
     function toggleDarkMode() {
         document.documentElement.classList.toggle('dark');
-        
+
         // Toggle icon based on the current theme
         const icon = document.getElementById('dark-mode-icon');
         if (document.documentElement.classList.contains('dark')) {
-            icon.textContent = '🌜'; // Moon icon for dark mode
+            icon.src = '/media/brightness.png'; // Brightness icon for dark mode
             localStorage.setItem('theme', 'dark'); // Save preference
         } else {
-            icon.textContent = '🌞'; // Sun icon for light mode
+            icon.src = '/media/moon.png'; // Moon icon for light mode
             localStorage.setItem('theme', 'light'); // Save preference
         }
     }
@@ -39,6 +53,6 @@
     // Set theme on page load based on user preference
     if (localStorage.getItem('theme') === 'dark') {
         document.documentElement.classList.add('dark');
-        document.getElementById('dark-mode-icon').textContent = '🌜';
+        document.getElementById('dark-mode-icon').src = '/media/brightness.png';
     }
 </script>
