@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = 3000;
@@ -11,31 +12,20 @@ app.set('views', path.join(__dirname, 'views'));
 // Serve static files (CSS, images)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
-app.get('/', (req, res) => res.render('index'));
-app.get('/about', (req, res) => res.render('about'));
-app.get('/contact', (req, res) => res.render('contact'));
-app.get('/community', (req, res) => res.render('community'));
-app.get('/portfolio', (req, res) => res.render('portfolio'));
+// Dynamic Route Matching
+app.get('*', (req, res) => {
+    const routePath = req.path === '/' ? 'index' : req.path.slice(1); // Default to 'index' for '/'
+    const filePath = path.join(app.get('views'), `${routePath}.ejs`);
 
-// Dynamic route for portfolio files
-app.get('/portfolio/:page', (req, res) => {
-  const page = req.params.page;
-  console.log(`Attempting to render portfolio page: ${page}`);
-  res.render(`portfolio/${page}`, (err, html) => {
-      if (err) {
-          console.error(`Error rendering page: ${page}`, err);
-          return res.status(404).end(); // Let the global 404 handler take over
-      }
-      res.send(html);
-  });
-});
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+        if (err) {
+            console.warn(`404 - EJS file not found for route: ${req.path}`);
+            return res.status(404).render('404');
+        }
 
-
-// Handle undefined routes (404 fallback)
-app.use((req, res) => {
-    console.warn(`404 - Not Found: ${req.originalUrl}`);
-    res.status(404).render('404');
+        console.log(`Rendering: ${routePath}.ejs`);
+        res.render(routePath);
+    });
 });
 
 // Start the server
