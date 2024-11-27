@@ -6,51 +6,34 @@
         <meta name="description" content="ERMFox's Portfolio - Explore game design, worldbuilding, coding, and art. Discover immersive worlds, stories, and interactive projects.">
         <meta name="keywords" content="ERMFox, game design, worldbuilding, coding, art, portfolio">
         <meta name="author" content="ERMFox">
-        <meta name="robots" content="index, follow"> <!-- Allow search engines to index and follow links -->
-        <title>ERMFox Portfolio</title>
+        <meta name="robots" content="index, follow">
+        <title>Sophie's Portfolio</title>
         <link href="/css/output.css" rel="stylesheet">
     </head>
-<body class="flex flex-col min-h-screen bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 font-sans">
-    <!-- Navbar -->
-    <%- include('partials/navbar') %>
+    <body class="flex flex-col min-h-screen bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 font-sans">
+        <!-- Navbar -->
+        <%- include('partials/navbar') %>
 
-    <!-- Main Content -->
-    <main class="flex-grow p-8 max-w-5xl mx-auto">
-        <!-- Welcome Section -->
-        <section class="text-center mb-12">
-            <h1 class="text-3xl font-bold mb-4">Welcome to ERMFox's Portfolio</h1>
-            <p class="text-lg">Discover my journey in game design, art, and coding projects.</p>
-            <q>The community makes the game</q>
-        </section>
+        <!-- Main Content -->
+        <main class="flex-grow p-8 max-w-5xl mx-auto">
+            <!-- Welcome Section -->
+            <section class="text-center mb-12">
+                <h1 class="text-3xl font-bold mb-4">Welcome to Sophie's Portfolio</h1>
+                <p class="text-lg">Feel free to discover my Portfolio at your own pace.</p>
+                <q>The community makes the game</q>
+            </section>
 
-        <!-- Introduction Section -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">About Me</h2>
-            <p>
-                Hi, I'm ERMFox! I'm passionate about creating immersive worlds, engaging stories, and interactive experiences.
-                My journey includes a blend of game design, worldbuilding, coding, and art, all aimed at building memorable
-                experiences for players and users alike. I’m currently working toward a game design degree, while also freelancing
-                as a backend developer.
-            </p>
-        </section>
-
-        <!-- Portfolio Highlights Section -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">Portfolio Highlights</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Art Section -->
-                <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold mb-2">Art</h3>
-                    <p>Explore my artwork, including illustrations and concept designs.</p>
-                    <a href="/portfolio#art" class="text-rose-600 dark:text-purple-600 font-semibold hover:underline">View Art &rarr;</a>
+            <!-- Pinned Repositories Section -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-semibold mb-4">Pinned Repositories</h2>
+                <div id="pinned-repos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Pinned repositories will be dynamically inserted here -->
                 </div>
+            </section>
+        </main>
 
-                <!-- Worldbuilding Section -->
-                <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold mb-2">Worldbuilding</h3>
-                    <p>Dive into the worlds I’ve created, complete with rich lore and storytelling.</p>
-                    <a href="/portfolio#worlds" class="text-rose-600 dark:text-purple-600 font-semibold hover:underline">Explore Worlds &rarr;</a>
-                </div>
+        <!-- Footer -->
+        <%- include('partials/footer') %>
 
         <script>
            const GITHUB_API_URL = "https://api.github.com/graphql";
