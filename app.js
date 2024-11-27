@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+require('dotenv').config();
 
 const app = express();
 const PORT = 3000;
@@ -11,6 +12,10 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files (CSS, images)
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/github-token', (req, res) => {
+    res.json({ token: process.env.GITHUB_TOKEN });
+});
 
 // Dynamic Route Matching
 app.get('*', (req, res) => {

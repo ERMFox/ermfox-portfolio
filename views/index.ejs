@@ -52,17 +52,168 @@
                     <a href="/portfolio#worlds" class="text-rose-600 dark:text-purple-600 font-semibold hover:underline">Explore Worlds &rarr;</a>
                 </div>
 
-                <!-- Coding Projects Section -->
-                <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold mb-2">Coding Projects</h3>
-                    <p>Check out my projects that showcase my skills in backend and game development.</p>
-                    <a href="/portfolio#coding-projects" class="text-rose-600 dark:text-purple-600 font-semibold hover:underline">See Projects &rarr;</a>
-                </div>
-            </div>
-        </section>
-    </main>
+        <script>
+           const GITHUB_API_URL = "https://api.github.com/graphql";
 
-    <!-- Footer -->
-    <%- include('partials/footer') %>
-</body>
+// Fetch the GitHub token from the server
+async function getGithubToken() {
+    const response = await fetch('/github-token');
+    if (!response.ok) {
+        throw new Error('Failed to fetch GitHub token');
+    }
+    const { token } = await response.json();
+    return token;
+}
+
+// Fetch pinned repositories
+async function fetchPinnedRepos() {
+    const TOKEN = await getGithubToken();
+
+    const query = `
+        query {
+            user(login: "ERMFox") {
+                pinnedItems(first: 6, types: REPOSITORY) {
+                    nodes {
+                        ... on Repository {
+                            name
+                            description
+                            url
+                            primaryLanguage {
+                                name
+                                color
+                            }
+                            stargazerCount
+                            forkCount
+                            languages(first: 10) {
+                                edges {
+                                    size
+                                    node {
+                                        name
+                                        color
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    `;
+
+    const response = await fetch(GITHUB_API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${TOKEN}`,
+        },
+        body: JSON.stringify({ query }),
+    });
+
+    if (!response.ok) {
+        console.error("Failed to fetch pinned repositories");
+        return [];
+    }
+
+    const result = await response.json();
+    return result.data.user.pinnedItems.nodes;
+}
+
+            // Create language bars
+            function createLanguageBars(languages) {
+                const totalSize = languages.reduce((sum, lang) => sum + lang.size, 0);
+                const container = document.createElement("div");
+                container.className = "relative h-4 mt-4 flex rounded-md overflow-hidden";
+
+                languages.forEach(({ node, size }) => {
+                    const percentage = ((size / totalSize) * 100).toFixed(2);
+
+                    const bar = document.createElement("div");
+                    bar.style.width = `${percentage}%`;
+                    bar.style.backgroundColor = node.color || "#ccc";
+                    bar.className = "h-full";
+                    bar.title = `${node.name}: ${percentage}%`;
+
+                    container.appendChild(bar);
+                });
+
+                return container;
+            }
+
+            // Create language balls
+            function createLanguageBalls(languages) {
+                const container = document.createElement("div");
+                container.className = "flex flex-wrap items-center gap-2 mt-2";
+
+                languages.forEach(({ node, size }) => {
+                    const dot = document.createElement("span");
+                    dot.className = "inline-block w-3 h-3 rounded-full";
+                    dot.style.backgroundColor = node.color || "#ccc";
+
+                    const label = document.createElement("span");
+                    label.className = "text-sm ml-1";
+                    label.textContent = `${node.name} (${((size / languages.reduce((sum, lang) => sum + lang.size, 0)) * 100).toFixed(2)}%)`;
+
+                    const languageContainer = document.createElement("div");
+                    languageContainer.className = "flex items-center gap-1";
+
+                    languageContainer.appendChild(dot);
+                    languageContainer.appendChild(label);
+                    container.appendChild(languageContainer);
+                });
+
+                return container;
+            }
+
+            // Render pinned repositories
+            async function renderPinnedRepos() {
+                const pinnedReposContainer = document.getElementById("pinned-repos");
+                const repos = await fetchPinnedRepos();
+
+                repos.forEach((repo) => {
+                    const card = document.createElement("div");
+                    card.className = "bg-white dark:bg-slate-900 p-6 rounded-lg shadow-md";
+
+                    const title = document.createElement("h3");
+                    title.className = "text-xl font-bold mb-2";
+                    title.textContent = repo.name;
+
+                    const description = document.createElement("p");
+                    description.className = "text-gray-600 dark:text-gray-400 mb-4";
+                    description.textContent = repo.description || "No description available.";
+
+                    const link = document.createElement("a");
+                    link.className = "text-rose-600 dark:text-purple-600 font-semibold hover:underline";
+                    link.href = repo.url;
+                    link.target = "_blank";
+                    link.textContent = "View Repository →";
+
+                    // Add language balls
+                    const languageBalls = repo.languages.edges.length > 0 
+                        ? createLanguageBalls(repo.languages.edges) 
+                        : null;
+
+                    // Add language bar
+                    const languageBar = repo.languages.edges.length > 0 
+                        ? createLanguageBars(repo.languages.edges) 
+                        : null;
+
+                    // Combine elements
+                    card.appendChild(title);
+                    card.appendChild(description);
+                    if (languageBalls) {
+                        card.appendChild(languageBalls);
+                    }
+                    if (languageBar) {
+                        card.appendChild(languageBar);
+                    }
+                    card.appendChild(link);
+
+                    pinnedReposContainer.appendChild(card);
+                });
+            }
+
+            // Fetch and render pinned repositories on page load
+            renderPinnedRepos();
+        </script>
+    </body>
 </html>
