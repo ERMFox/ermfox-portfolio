@@ -13,9 +13,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Serve static files (CSS, images)
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/github-token', (req, res) => {
-    res.json({ token: process.env.GITHUB_TOKEN });
-});
+// Removed insecure route that exposed the GitHub token
 
 // Dynamic Route Matching
 app.get('*', (req, res) => {
